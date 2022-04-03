@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 //const path = require('path'); #1
+const port = process.env.PORT;
 
 //partials hbs
 const hbs = require("hbs");
@@ -10,8 +12,8 @@ const hbs = require("hbs");
 app.set("view engine", "hbs");
 
 //partials
-hbs.registerPartials(__dirname + "/views/partial", function (err) {
-  console.log("error:",err);
+hbs.registerPartials(__dirname + "/views/partials", function (err) {
+  console.log("error:", err);
 });
 
 //servir contenido estatico
@@ -40,4 +42,4 @@ app.get("*", (req, res) => {
   res.sendFile(__dirname + "/public/404.html");
 });
 
-app.listen(3000);
+app.listen(port);
