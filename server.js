@@ -1,11 +1,30 @@
 const express = require("express");
 const app = express();
+//const path = require('path'); #1
+
+//partials hbs
+const hbs = require("hbs");
+
+//establecemos el motor de plantilla
+//para renderizar se requiere el directorio 'views'
+app.set("view engine", "hbs");
+
+//partials
+hbs.registerPartials(__dirname + "/views/partial", function (err) {
+  console.log("error:",err);
+});
 
 //servir contenido estatico
 app.use(express.static("public"));
+//usando path
+//app.use(express.static(path.join(__dirname, 'public'))); #1
 
 app.get("/", function (req, res) {
   res.send("Hello World express");
+});
+
+app.get("/hbs", function (req, res) {
+  res.render("index", { titulo: "argumentos" });
 });
 
 app.get("/nueva_ruta", (req, res) => {
@@ -17,8 +36,8 @@ app.get("/segunda_ruta", (request, response) => {
 });
 
 app.get("*", (req, res) => {
-    //la ruta debe ser absoluta
-    res.sendFile(__dirname+'/public/404.html');
+  //la ruta debe ser absoluta
+  res.sendFile(__dirname + "/public/404.html");
 });
 
 app.listen(3000);
